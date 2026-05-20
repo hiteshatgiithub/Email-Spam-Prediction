@@ -119,11 +119,16 @@ st.markdown("---")
 
 # ── Input ─────────────────────────────────────────────────────────────────────
 st.markdown("### ✉️ Enter Email / SMS Text:")
+
+if "input_message" not in st.session_state:
+    st.session_state.input_message = ""
+
 input_text = st.text_area(
-    label="Enter message", 
+    label="Enter message",
+    value=st.session_state.input_message,
     placeholder="Type or paste your email/SMS message here...",
-    height=160,  
-    key="input_box"
+    height=160,
+    key="message_box"
 )
 
 # ── Predict button ────────────────────────────────────────────────────────────
@@ -191,15 +196,15 @@ ham_examples = [
 with col_x:
     st.markdown("**🚨 Spam Examples:**")
     for i, ex in enumerate(spam_examples):
-        if st.button(f"Spam {i+1}", key=f"spam_{i}", use_container_width=True):
-            st.session_state['input'] = ex
+        if st.button(f"Spam {i+1}", key=f"spam_{i}"):
+            st.session_state.input_message = ex
             st.rerun()
 
 with col_y:
     st.markdown("**✅ Ham Examples:**")
     for i, ex in enumerate(ham_examples):
-        if st.button(f"Ham {i+1}", key=f"ham_{i}", use_container_width=True):
-            st.session_state['input'] = ex
+        if st.button(f"Ham {i+1}", key=f"ham_{i}"):
+            st.session_state.input_message = ex
             st.rerun()
 
 st.markdown("---")
